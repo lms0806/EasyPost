@@ -1,7 +1,7 @@
 ## EasyPost
 
 Tauri + React + TypeScript 기반의 **데스크톱용 REST API 클라이언트**입니다.  
-任의의 HTTP 엔드포인트로 GET / POST 요청을 보내고, Header · Body · 응답 내용을 한 화면에서 확인할 수 있습니다.
+임의의 HTTP 엔드포인트로 GET / POST 요청을 보내고, Header · Body · 응답 내용을 한 화면에서 확인할 수 있습니다.
 
 ### 주요 기능
 
