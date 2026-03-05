@@ -48,6 +48,14 @@ async fn proxy_patch(
     proxy_request("PATCH", url, headers, body).await
 }
 
+#[tauri::command]
+async fn proxy_delete(
+    url: String,
+    headers: Option<HashMap<String, String>>,
+) -> ProxyResponse {
+    proxy_request("DELETE", url, headers, None).await
+}
+
 async fn proxy_request(
     method: &str,
     url: String,
@@ -60,6 +68,7 @@ async fn proxy_request(
         "POST" => client.post(&url),
         "PUT" => client.put(&url),
         "PATCH" => client.patch(&url),
+        "DELETE" => client.delete(&url),
         _ => client.get(&url),
     };
 
@@ -127,7 +136,8 @@ pub fn run() {
             proxy_get,
             proxy_post,
             proxy_put,
-            proxy_patch
+            proxy_patch,
+            proxy_delete
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
