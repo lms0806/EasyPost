@@ -30,6 +30,24 @@ async fn proxy_post(
     proxy_request("POST", url, headers, body).await
 }
 
+#[tauri::command]
+async fn proxy_put(
+    url: String,
+    headers: Option<HashMap<String, String>>,
+    body: Option<Value>,
+) -> ProxyResponse {
+    proxy_request("PUT", url, headers, body).await
+}
+
+#[tauri::command]
+async fn proxy_patch(
+    url: String,
+    headers: Option<HashMap<String, String>>,
+    body: Option<Value>,
+) -> ProxyResponse {
+    proxy_request("PATCH", url, headers, body).await
+}
+
 async fn proxy_request(
     method: &str,
     url: String,
@@ -40,6 +58,8 @@ async fn proxy_request(
 
     let mut request = match method {
         "POST" => client.post(&url),
+        "PUT" => client.put(&url),
+        "PATCH" => client.patch(&url),
         _ => client.get(&url),
     };
 
@@ -102,7 +122,13 @@ async fn proxy_request(
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet, proxy_get, proxy_post])
+        .invoke_handler(tauri::generate_handler![
+            greet,
+            proxy_get,
+            proxy_post,
+            proxy_put,
+            proxy_patch
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
